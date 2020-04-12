@@ -2,8 +2,6 @@ const path = require("path");
 
 const express = require("express");
 
-const rootPath = require("../utils/rootPath");
-
 const router = express.Router();
 
 const memories = [];
@@ -24,21 +22,24 @@ const memories = [];
 
 router.get("/", (req, res, next) => {
   console.log(memories);
-  res.sendFile(path.join(rootPath, "views", "home.html"));
+  // res.sendFile(path.join(rootPath, "views", "home.html"));
+  res.render("home.ejs", {viewTitle: 'Home', memories: memories});
 });
 
 router.get("/create-memory", (req, res, next) => {
-  res.sendFile(path.join(rootPath, "views", "create-memory.html"));
+  // res.sendFile(path.join(rootPath, "views", "create-memory.html"));
+  res.render("create-memory.ejs", {viewTitle: 'Create a new memory'});
 });
 
-router.post('/create-memory', (req, res, next) => {
-  const postedTitle = req.body.title
-  memories.push({title: postedTitle})
-  res.redirect('/create-memory')
-})
+router.post("/create-memory", (req, res, next) => {
+  const postedTitle = req.body.title;
+  memories.push({ title: postedTitle });
+  res.redirect("/create-memory");
+});
 
 router.use((req, res, next) => {
-  res.status(404).sendFile(path.join(rootPath, "views", "404.html"));
+  // res.status(404).sendFile(path.join(rootPath, "views", "404.html"));
+  res.status(404).render("404.ejs", {viewTitle: 'Error 404'});
 });
 
 module.exports = router;
