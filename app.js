@@ -3,6 +3,10 @@ const bodyParser = require('body-parser')
 
 const app = express();
 
+// Template engine
+app.set('view engine', 'ejs');
+app.set('views', 'views')
+
 // Middleware
 app.use(bodyParser.urlencoded({extended: true}))
 

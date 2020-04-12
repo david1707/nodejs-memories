@@ -1,0 +1,17 @@
+  <%- include('includes/head.ejs') %>
+  
+  </head>
+  <body>
+    <%- include('includes/header.ejs') %>
+
+    <main>
+      <h1>Home</h1>
+
+      <ul>
+        <% for (let memory of memories) { %>
+          <p>Memory at <%= memory.title %></p>
+        <% } %>
+      </ul>
+    </main>
+
+    <%- include('includes/footer.ejs') %>
