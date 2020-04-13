@@ -1,3 +1,5 @@
+const path = require('path')
+
 const express = require('express')
 const bodyParser = require('body-parser')
 
@@ -9,6 +11,7 @@ app.set('views', 'views')
 
 // Middleware
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.static(path.join(__dirname, 'static')))
 
 // Routes
 const routes = require('./routes/routes')
