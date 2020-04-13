@@ -7,11 +7,18 @@
     <main>
       <h1>Home</h1>
 
-      <ul>
-        <% for (let memory of memories) { %>
-          <p>Memory at <%= memory.title %></p>
+      
+        <% for (let index of memories.keys()) { %>
+          <div class="memory">
+          <h3>Memory <%= index +1 %></h3>
+          <p><strong><%= memories[index].title %></strong></p>
+          <p>GPS Posicion: <%= memories[index].gps %></p>
+          <img src="<%= memories[index].imageUrl %>" alt="" srcset="">
+          <p>Comment:<%= memories[index].comment %></p>
+
+          </div>
         <% } %>
-      </ul>
+      
     </main>
 
     <%- include('includes/footer.ejs') %>

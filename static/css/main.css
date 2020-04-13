@@ -18,37 +18,48 @@ header > nav {
 }
 header > nav > ul {
   padding: 0;
-	margin: 0;
-	display: flex;
-	flex-direction: row;
-	list-style: none;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
 }
 
-header > nav > ul > li { 
-	padding: 0 1em;
+header > nav > ul > li {
+  padding: 0 1em;
 }
 
-header > nav > ul > li > a { 
-	text-decoration: none;
-	font-weight: bold;
-	color: rgb(65, 52, 252);
+header > nav > ul > li > a {
+  text-decoration: none;
+  font-weight: bold;
+  color: rgb(65, 52, 252);
 }
 
-header > nav > ul > li > a:hover, 
+header > nav > ul > li > a:hover,
 header > nav > ul > li > a:active {
-	color: rgb(25, 9, 248);
+  color: rgb(25, 9, 248);
 }
 
-main{
-	width: 80%;
-	margin: 0 auto;
+main {
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* Form */
 form {
-	width: 300px;
+  width: 300px;
 }
-input, label {
-	display: block;
-	width: 100%;
+label {
+	margin-top: 0.5em;
+  text-align: center;
+}
+input,
+label,
+textarea {
+  display: block;
+  width: 100%;
+}
+button {
+  padding: 0.25em 0;
+  margin: 0.5em 0;
+  width: 100%;
 }
