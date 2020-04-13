@@ -9,6 +9,7 @@ const filePath = path.join(
 
 module.exports = class Memory {
   constructor(title, imageUrl, gps, comment) {
+    this.id = Math.random();
     this.title = title;
     this.imageUrl = imageUrl;
     this.gps = gps;
@@ -33,7 +34,7 @@ module.exports = class Memory {
       if (err) {
         return callback([]);
       }
-      return callback(JSON.parse(response))
+      return callback(JSON.parse(response));
     });
   }
 };
