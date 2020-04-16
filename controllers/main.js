@@ -17,8 +17,8 @@ exports.postCreateMemory = (req, res, next) => {
   const memoryComment = req.body.comment;
   const memory = new Memory(
     memoryTitle,
-    memoryGPS,
     memoryImageURL,
+    memoryGPS,
     memoryComment
   );
   memory.save();
