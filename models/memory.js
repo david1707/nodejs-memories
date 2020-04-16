@@ -8,8 +8,12 @@ const filePath = path.join(
 );
 
 module.exports = class Memory {
-  constructor(title, imageUrl, gps, comment) {
-    this.id = Math.random();
+  constructor(title, imageUrl, gps, comment, id) {
+    if (id) {
+      this.id = id;
+    } else {
+      this.id = Math.random();
+    }
     this.title = title;
     this.imageUrl = imageUrl;
     this.gps = gps;
@@ -23,6 +27,21 @@ module.exports = class Memory {
         memories = JSON.parse(response);
       }
       memories.push(this);
+      fs.writeFile(filePath, JSON.stringify(memories), (err) =>
+        console.log(err)
+      );
+    });
+  }
+
+  update(memoryID) {
+    fs.readFile(filePath, (err, response) => {
+      let memories = [];
+      if (!err) {
+        memories = JSON.parse(response);
+      }
+      const memoryIndex = memories.findIndex((memory) => memory.id == memoryID);
+      memories[memoryIndex] = this;
+
       fs.writeFile(filePath, JSON.stringify(memories), (err) =>
         console.log(err)
       );
