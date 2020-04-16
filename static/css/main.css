@@ -45,14 +45,14 @@ main {
 }
 
 /* Memory */
-.memories { 
+.memories {
   width: 100%;
-  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .memory {
-  width: 33%;
   padding: 1em;
-  min-width: 300px;
+  margin: 0.5em 1em;
   background: white;
   border: 1px dotted black;
 }
@@ -60,6 +60,30 @@ main {
 .memory > * {
   text-align: center;
   width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.memory > p > i {
+  font-size: 0.8rem;
+}
+
+.memory > img {
+  height: 300px;
+}
+
+.buttons { 
+  display: flex;
+  flex-direction: column;
+}
+.link-button {
+  padding: 0.25em 0;
+  margin: 0.5em 0;
+  width: 100%;
+  color: rgb(160, 160, 240);
+  background: white;
+  border: 1px solid rgb(160, 160, 240);
+  text-decoration: none;
 }
 
 /* Form */
@@ -70,7 +94,7 @@ form {
   margin-top: 5em;
 }
 label {
-	margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 input,
 label,
@@ -87,7 +111,7 @@ button {
   width: 100%;
   color: rgb(160, 160, 240);
   background: white;
-  border:1px solid rgb(160, 160, 240);
+  border: 1px solid rgb(160, 160, 240);
 }
 
 /* Footer */

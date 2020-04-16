@@ -10,6 +10,8 @@ router.get("/create-memory", mainController.getCreateMemory);
 
 router.post("/create-memory", mainController.postCreateMemory);
 
+router.get("/detail-memory/:id", mainController.getMemory);
+
 router.use(mainController.get404);
 
 module.exports = router;

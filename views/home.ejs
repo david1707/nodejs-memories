@@ -12,10 +12,10 @@
               <h2><%= memories[index].title %></h2>
               <img src="<%= memories[index].imageUrl %>" alt="" srcset="">
               <p><i>GPS Posicion: <%= memories[index].gps %></i></p>
-              <p>Comment:<%= memories[index].comment %></p>
+              <h5><%= memories[index].comment %></h5>
               <div class="buttons">
-                <button type="submit">View</button>
-                <button type="submit">Edit</button>
+                <a href="/detail-memory/<%= memories[index].id %>" class="link-button">View</a>
+                <a href="/edit-memory/<%= memories[index].id %>" class="link-button">Edit</a>
               </div>
             </div>
           <% } %>

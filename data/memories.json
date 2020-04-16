@@ -1,22 +1,23 @@
 [
   {
-    "title": "aaa",
-    "imageUrl": "https://informatica4esoivan.files.wordpress.com/2009/09/2009021211gjly-u-kcjop593621new_spqr_flag.jpeg",
-    "gps": "bbb",
-    "comment": "dddd"
+    "id": 0.3419185112237224,
+    "title": "Bratislava, Slovakia",
+    "imageUrl": "https://image.jimcdn.com/app/cms/image/transf/none/path/sa6549607c78f5c11/image/ia8d414b6fef8c095/version/1547228716/bratislava-tourism-slovakia.jpg",
+    "gps": "132, 535",
+    "comment": "Bratislava downtown"
   },
   {
-    "title": "z",
-    "imageUrl": "https://informatica4esoivan.files.wordpress.com/2009/09/2009021211gjly-u-kcjop593621new_spqr_flag.jpeg",
-    "gps": "1",
-    "comment": "4"
+    "id": 0.8143251625241125,
+    "title": "Phuket, Thailand",
+    "imageUrl": "https://directiatravel.com/public/upload/guide/2017/05/guia-phuket-tailandia_768x475.jpg",
+    "gps": "87, -25",
+    "comment": "Pure white sands, aquamarine waters and limestone cliffs await travelers who visit Thailand's southwestern island of Phuket."
   },
-  { "title": "axd", "imageUrl": "xd", "gps": "xd", "comment": "xd" },
   {
-    "id": 0.5811547517299407,
-    "title": "adsfasd",
-    "imageUrl": "adsfasdf",
-    "gps": "asdfasd",
-    "comment": "asfasdfasd"
+    "id": 0.9183751237245325,
+    "title": "Paris, France",
+    "imageUrl": "https://travel.usnews.com/dims4/USNEWS/86b0e5f/2147483647/resize/976x652%5E%3E/crop/976x652/quality/85/?url=https://travel.usnews.com/static-travel/images/destinations/86/gettyimages-532590277.jpg",
+    "gps": "53, 135",
+    "comment": "Tour boats known as Bateaux-Mouches are a great way to see some of Paris' most famous attractions."
   }
 ]

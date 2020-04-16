@@ -1,7 +1,7 @@
 const Memory = require("../models/memory");
 
 exports.getHome = (req, res, next) => {
-  Memory.getMemories(memories => {
+  Memory.getMemories((memories) => {
     res.render("home.ejs", { viewTitle: "Home", memories: memories });
   });
 };
@@ -23,6 +23,16 @@ exports.postCreateMemory = (req, res, next) => {
   );
   memory.save();
   res.redirect("/create-memory");
+};
+
+exports.getMemory = (req, res, next) => {
+  const memoryID = req.params.id;
+  Memory.getMemory(memoryID, (memory) => {
+    res.render("detail-memory.ejs", {
+      viewTitle: "Details",
+      memory: memory,
+    });
+  });
 };
 
 exports.get404 = (req, res, next) => {

@@ -37,4 +37,15 @@ module.exports = class Memory {
       return callback(JSON.parse(response));
     });
   }
+
+  static getMemory(memoryID, callback) {
+    fs.readFile(filePath, (err, response) => {
+      if (err) {
+        return callback([]);
+      }
+      const memories = JSON.parse(response);
+      const memory = memories.find((memory) => memory.id == memoryID);
+      return callback(memory);
+    });
+  }
 };
