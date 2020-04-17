@@ -7,15 +7,16 @@
     <main>
       <h1>Home</h1>
         <div class="memories">
-          <% for (let index of memories.keys()) { %>
+          <% for (let memory of memories) { %>
             <div class="memory">
-              <h2><%= memories[index].title %></h2>
-              <img src="<%= memories[index].imageUrl %>" alt="" srcset="">
-              <p><i>GPS Posicion: <%= memories[index].gps %></i></p>
-              <h5><%= memories[index].comment %></h5>
+              <h1>!!!</h1>
+              <h2><%= memory.title %></h2>
+              <img src="<%= memory.imageUrl %>" alt="" srcset="">
+              <p><i>GPS Posicion: <%= memory.gps %></i></p>
+              <h5><%= memory.comment %></h5>
               <div class="buttons">
-                <a href="/detail-memory/<%= memories[index].id %>" class="link-button">View</a>
-                <a href="/edit-memory/<%= memories[index].id %>" class="link-button">Edit</a>
+                <a href="/detail-memory/<%= memory.id %>" class="link-button">View</a>
+                <a href="/edit-memory/<%= memory.id %>" class="link-button">Edit</a>
               </div>
             </div>
           <% } %>
