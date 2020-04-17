@@ -20,16 +20,17 @@ module.exports = class Memory {
     this.comment = comment;
   }
 
-  save() {
+  save(callback) {
     fs.readFile(filePath, (err, response) => {
       let memories = [];
       if (!err) {
         memories = JSON.parse(response);
       }
       memories.push(this);
-      fs.writeFile(filePath, JSON.stringify(memories), (err) =>
-        console.log(err)
-      );
+      fs.writeFile(filePath, JSON.stringify(memories), (err) => { 
+        console.log(err);
+      });
+      return callback(this.id)
     });
   }
 

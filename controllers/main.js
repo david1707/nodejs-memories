@@ -21,8 +21,7 @@ exports.postCreateMemory = (req, res, next) => {
     memoryGPS,
     memoryComment
   );
-  memory.save();
-  res.redirect("/create-memory");
+  memory.save(memoryID => res.redirect('/detail-memory/' + memoryID)) 
 };
 
 exports.getMemory = (req, res, next) => {
