@@ -67,4 +67,18 @@ module.exports = class Memory {
       return callback(memory);
     });
   }
+
+  static deleteMemory(memoryID, callback) {
+    fs.readFile(filePath, (err, response) => {
+      let memories = [];
+      if (!err) {
+        memories = JSON.parse(response);
+      }
+      memories = memories.filter((memory) => memory.id != memoryID);
+
+      fs.writeFile(filePath, JSON.stringify(memories), (err) => {
+        console.log(err);
+      });
+    });
+  }
 };

@@ -52,13 +52,22 @@ exports.postEditMemory = (req, res, next) => {
     const memoryGPS = req.body.gps;
     const memoryImageURL = req.body.imageURL;
     const memoryComment = req.body.comment;
-    const updateMemory = new Memory(memoryTitle, memoryImageURL, memoryGPS, memoryComment, memoryID)
-    updateMemory.update(memoryID)
-    res.redirect(`detail-memory/${memoryID}`)
+    const updateMemory = new Memory(
+      memoryTitle,
+      memoryImageURL,
+      memoryGPS,
+      memoryComment,
+      memoryID
+    );
+    updateMemory.update(memoryID);
+    res.redirect(`detail-memory/${memoryID}`);
   });
+};
 
-
-    
+exports.getDeleteMemory = (req, res, next) => {
+  const memoryID = req.params.id;
+  Memory.deleteMemory(memoryID)
+  res.redirect("/");
 };
 
 exports.get404 = (req, res, next) => {
