@@ -1,85 +1,70 @@
-const fs = require("fs");
-const path = require("path");
+const mongodb = require("mongodb");
 
-const filePath = path.join(
-  path.dirname(process.mainModule.filename),
-  "data",
-  "memories.json"
-);
+const getDB = require("../utils/databaseConfig").getDB;
 
-module.exports = class Memory {
-  constructor(title, imageUrl, gps, comment, id) {
-    if (id) {
-      this.id = id;
-    } else {
-      this.id = Math.random();
-    }
+class Memory {
+  constructor(title, imageUrl, gps, comment) {
     this.title = title;
     this.imageUrl = imageUrl;
     this.gps = gps;
     this.comment = comment;
   }
 
-  save(callback) {
-    fs.readFile(filePath, (err, response) => {
-      let memories = [];
-      if (!err) {
-        memories = JSON.parse(response);
-      }
-      memories.push(this);
-      fs.writeFile(filePath, JSON.stringify(memories), (err) => { 
-        console.log(err);
-      });
-      return callback(this.id)
-    });
+  save() {
+    const db = getDB();
+    return db
+      .collection("memories")
+      .insertOne(this)
+      .then((result) => result)
+      .catch((err) => console.error(err));
   }
 
-  update(memoryID) {
-    fs.readFile(filePath, (err, response) => {
-      let memories = [];
-      if (!err) {
-        memories = JSON.parse(response);
-      }
-      const memoryIndex = memories.findIndex((memory) => memory.id == memoryID);
-      memories[memoryIndex] = this;
-
-      fs.writeFile(filePath, JSON.stringify(memories), (err) =>
-        console.log(err)
-      );
-    });
+  static getMemories() {
+    const db = getDB();
+    return db
+      .collection("memories")
+      .find()
+      .toArray()
+      .then((result) => result)
+      .catch((err) => console.error(err));
   }
 
-  static getMemories(callback) {
-    fs.readFile(filePath, (err, response) => {
-      if (err) {
-        return callback([]);
-      }
-      return callback(JSON.parse(response));
-    });
+  static getMemory(memoryId) {
+    const db = getDB();
+    return db
+      .collection("memories")
+      .findOne({ _id: new mongodb.ObjectId(memoryId) })
+      .then((memory) => {
+        return memory;
+      })
+      .catch((err) => console.error(err));
   }
 
-  static getMemory(memoryID, callback) {
-    fs.readFile(filePath, (err, response) => {
-      if (err) {
-        return callback([]);
-      }
-      const memories = JSON.parse(response);
-      const memory = memories.find((memory) => memory.id == memoryID);
-      return callback(memory);
-    });
+  static updateMemory(memoryID, memory) {
+    const db = getDB();
+    return db
+      .collection("memories")
+      .findOneAndUpdate(
+        { _id: new mongodb.ObjectId(memoryID) },
+        { $set: memory },
+        { returnOriginal: false }
+      )
+      .then((data) => {
+        return data.value;
+      })
+      .catch((err) => console.error(err));
   }
 
-  static deleteMemory(memoryID, callback) {
-    fs.readFile(filePath, (err, response) => {
-      let memories = [];
-      if (!err) {
-        memories = JSON.parse(response);
-      }
-      memories = memories.filter((memory) => memory.id != memoryID);
-
-      fs.writeFile(filePath, JSON.stringify(memories), (err) => {
-        console.log(err);
-      });
-    });
+  static deleteMemory(memoryID) {
+    const db = getDB();
+    return db
+      .collection("memories")
+      .findOneAndDelete({ _id: new mongodb.ObjectId(memoryID) })
+      .then((_) => {
+        console.log(`Memory with ID ${memoryID} deleted`)
+      })
+      .catch((err) => console.error(err));
   }
-};
+}
+
+module.exports = Memory;

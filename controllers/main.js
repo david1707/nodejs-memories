@@ -1,7 +1,7 @@
 const Memory = require("../models/memory");
 
 exports.getHome = (req, res, next) => {
-  Memory.getMemories((memories) => {
+  Memory.getMemories().then((memories) => {
     res.render("home.ejs", { viewTitle: "Home", memories: memories });
   });
 };
@@ -15,58 +15,72 @@ exports.postCreateMemory = (req, res, next) => {
   const memoryGPS = req.body.gps;
   const memoryImageURL = req.body.imageURL;
   const memoryComment = req.body.comment;
+
   const memory = new Memory(
     memoryTitle,
     memoryImageURL,
     memoryGPS,
     memoryComment
   );
-  memory.save(memoryID => res.redirect('/detail-memory/' + memoryID)) 
+  memory
+    .save()
+    .then((result) => {
+      res.redirect("/");
+    })
+    .catch((err) => console.error(err));
 };
 
 exports.getMemory = (req, res, next) => {
   const memoryID = req.params.id;
-  Memory.getMemory(memoryID, (memory) => {
-    res.render("detail-memory.ejs", {
-      viewTitle: "Details",
-      memory: memory,
-    });
-  });
+  Memory.getMemory(memoryID)
+    .then((memory) => {
+      res.render("detail-memory.ejs", {
+        viewTitle: "Details",
+        memory: memory,
+      });
+    })
+    .catch((err) => console.error(err));
 };
 
 exports.getEditMemory = (req, res, next) => {
   const memoryID = req.params.id;
-  Memory.getMemory(memoryID, (memory) => {
-    res.render("edit-memory.ejs", {
-      viewTitle: "Details",
-      memory: memory,
-    });
-  });
+  Memory.getMemory(memoryID)
+    .then((memory) => {
+      res.render("edit-memory.ejs", {
+        viewTitle: "Details",
+        memory: memory,
+      });
+    })
+    .catch((err) => console.error(err));
 };
 
 exports.postEditMemory = (req, res, next) => {
   const memoryID = req.body.id;
-  Memory.getMemories((memories) => {
-    const memoryTitle = req.body.title;
-    const memoryGPS = req.body.gps;
-    const memoryImageURL = req.body.imageURL;
-    const memoryComment = req.body.comment;
-    const updateMemory = new Memory(
-      memoryTitle,
-      memoryImageURL,
-      memoryGPS,
-      memoryComment,
-      memoryID
-    );
-    updateMemory.update(memoryID);
-    res.redirect(`detail-memory/${memoryID}`);
-  });
+  const memoryTitle = req.body.title;
+  const memoryImageUrl = req.body.imageURL;
+  const memoryGps = req.body.gps;
+  const memoryComment = req.body.comment;
+
+  Memory.updateMemory(memoryID, {
+    title: memoryTitle,
+    imageUrl: memoryImageUrl,
+    gps: memoryGps,
+    comment: memoryComment,
+  })
+    .then((memory) => {
+      res.render("detail-memory.ejs", {
+        viewTitle: "Details",
+        memory: memory,
+      });
+    })
+    .catch((err) => console.error(err));
 };
 
 exports.getDeleteMemory = (req, res, next) => {
   const memoryID = req.params.id;
   Memory.deleteMemory(memoryID)
-  res.redirect("/");
+    .then((result) => res.redirect("/"))
+    .catch((err) => console.error(err));
 };
 
 exports.get404 = (req, res, next) => {
