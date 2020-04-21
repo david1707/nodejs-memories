@@ -10,13 +10,13 @@ router.get("/create-memory", mainController.getCreateMemory);
 
 router.post("/create-memory", mainController.postCreateMemory);
 
-// router.get("/detail-memory/:id", mainController.getMemory);
+router.get("/detail-memory/:id", mainController.getMemory);
 
-// router.get("/edit-memory/:id", mainController.getEditMemory);
+router.get("/edit-memory/:id", mainController.getEditMemory);
 
-// router.post("/edit-memory/", mainController.postEditMemory);
+router.post("/edit-memory/", mainController.postEditMemory);
 
-// router.get("/delete-memory/:id", mainController.getDeleteMemory);
+router.get("/delete-memory/:id", mainController.getDeleteMemory);
 
 router.use(mainController.get404);
 
