@@ -1,70 +1,95 @@
-const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 
-const getDB = require("../utils/databaseConfig").getDB;
+const { Schema } = mongoose;
 
-class Memory {
-  constructor(title, imageUrl, gps, comment) {
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.gps = gps;
-    this.comment = comment;
-  }
+const memorySchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  gps: {
+    type: String,
+    required: false,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+});
 
-  save() {
-    const db = getDB();
-    return db
-      .collection("memories")
-      .insertOne(this)
-      .then((result) => result)
-      .catch((err) => console.error(err));
-  }
+module.exports = mongoose.model("Memory", memorySchema);
 
-  static getMemories() {
-    const db = getDB();
-    return db
-      .collection("memories")
-      .find()
-      .toArray()
-      .then((result) => result)
-      .catch((err) => console.error(err));
-  }
+// const mongodb = require("mongodb");
 
-  static getMemory(memoryId) {
-    const db = getDB();
-    return db
-      .collection("memories")
-      .findOne({ _id: new mongodb.ObjectId(memoryId) })
-      .then((memory) => {
-        return memory;
-      })
-      .catch((err) => console.error(err));
-  }
+// const getDB = require("../utils/databaseConfig").getDB;
 
-  static updateMemory(memoryID, memory) {
-    const db = getDB();
-    return db
-      .collection("memories")
-      .findOneAndUpdate(
-        { _id: new mongodb.ObjectId(memoryID) },
-        { $set: memory },
-        { returnOriginal: false }
-      )
-      .then((data) => {
-        return data.value;
-      })
-      .catch((err) => console.error(err));
-  }
+// class Memory {
+//   constructor(title, imageUrl, gps, comment) {
+//     this.title = title;
+//     this.imageUrl = imageUrl;
+//     this.gps = gps;
+//     this.comment = comment;
+//   }
 
-  static deleteMemory(memoryID) {
-    const db = getDB();
-    return db
-      .collection("memories")
-      .findOneAndDelete({ _id: new mongodb.ObjectId(memoryID) })
-      .then((_) => {
-        console.log(`Memory with ID ${memoryID} deleted`)
-      })
-      .catch((err) => console.error(err));
-  }
-}
+//   save() {
+//     const db = getDB();
+//     return db
+//       .collection("memories")
+//       .insertOne(this)
+//       .then((result) => result)
+//       .catch((err) => console.error(err));
+//   }
 
-module.exports = Memory;
+//   static getMemories() {
+//     const db = getDB();
+//     return db
+//       .collection("memories")
+//       .find()
+//       .toArray()
+//       .then((result) => result)
+//       .catch((err) => console.error(err));
+//   }
+
+//   static getMemory(memoryId) {
+//     const db = getDB();
+//     return db
+//       .collection("memories")
+//       .findOne({ _id: new mongodb.ObjectId(memoryId) })
+//       .then((memory) => {
+//         return memory;
+//       })
+//       .catch((err) => console.error(err));
+//   }
+
+//   static updateMemory(memoryID, memory) {
+//     const db = getDB();
+//     return db
+//       .collection("memories")
+//       .findOneAndUpdate(
+//         { _id: new mongodb.ObjectId(memoryID) },
+//         { $set: memory },
+//         { returnOriginal: false }
+//       )
+//       .then((data) => {
+//         return data.value;
+//       })
+//       .catch((err) => console.error(err));
+//   }
+
+//   static deleteMemory(memoryID) {
+//     const db = getDB();
+//     return db
+//       .collection("memories")
+//       .findOneAndDelete({ _id: new mongodb.ObjectId(memoryID) })
+//       .then((_) => {
+//         console.log(`Memory with ID ${memoryID} deleted`)
+//       })
+//       .catch((err) => console.error(err));
+//   }
+// }
+
+// module.exports = Memory;

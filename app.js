@@ -2,8 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-
-const mongoConnect = require("./utils/databaseConfig").mongoConnect;
+const mongoose = require("mongoose");
 
 const app = express();
 
@@ -20,6 +19,12 @@ const routes = require("./routes/routes");
 
 app.use(routes);
 
-mongoConnect((client) => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    "mongodb+srv://david:nonono33@cluster0-qnzrq.mongodb.net/tutorial?retryWrites=true&w=majority",
+    { useUnifiedTopology: true, useNewUrlParser: true }
+  )
+  .then((result) => {
+    app.listen(3000);
+  })
+  .catch((err) => console.log(err));
