@@ -1,7 +1,8 @@
 const Memory = require("../models/memory");
 
 exports.getHome = (req, res, next) => {
-  Memory.getMemories().then((memories) => {
+  // Memory.getMemories().then((memories) => {
+  Memory.find().then((memories) => {
     res.render("home.ejs", { viewTitle: "Home", memories: memories });
   });
 };
@@ -11,17 +12,8 @@ exports.getCreateMemory = (req, res, next) => {
 };
 
 exports.postCreateMemory = (req, res, next) => {
-  const memoryTitle = req.body.title;
-  const memoryGPS = req.body.gps;
-  const memoryImageURL = req.body.imageURL;
-  const memoryComment = req.body.comment;
-
-  const memory = new Memory(
-    memoryTitle,
-    memoryImageURL,
-    memoryGPS,
-    memoryComment
-  );
+  const { title, imageUrl, gps, comment } = req.body;
+  const memory = new Memory({ title, imageUrl, gps, comment });
   memory
     .save()
     .then((result) => {
@@ -32,7 +24,8 @@ exports.postCreateMemory = (req, res, next) => {
 
 exports.getMemory = (req, res, next) => {
   const memoryID = req.params.id;
-  Memory.getMemory(memoryID)
+  // Memory.getMemory(memoryID)
+  Memory.findById(memoryID)
     .then((memory) => {
       res.render("detail-memory.ejs", {
         viewTitle: "Details",
@@ -44,7 +37,7 @@ exports.getMemory = (req, res, next) => {
 
 exports.getEditMemory = (req, res, next) => {
   const memoryID = req.params.id;
-  Memory.getMemory(memoryID)
+  Memory.findById(memoryID)
     .then((memory) => {
       res.render("edit-memory.ejs", {
         viewTitle: "Details",
@@ -55,18 +48,19 @@ exports.getEditMemory = (req, res, next) => {
 };
 
 exports.postEditMemory = (req, res, next) => {
-  const memoryID = req.body.id;
-  const memoryTitle = req.body.title;
-  const memoryImageUrl = req.body.imageURL;
-  const memoryGps = req.body.gps;
-  const memoryComment = req.body.comment;
+  const { id, title, imageUrl, gps, comment } = req.body;
 
-  Memory.updateMemory(memoryID, {
-    title: memoryTitle,
-    imageUrl: memoryImageUrl,
-    gps: memoryGps,
-    comment: memoryComment,
-  })
+  // Memory.updateMemory(memoryID, {
+  //   title,
+  //   imageUrl,
+  //   gps,
+  //   comment,
+  // })
+  Memory.findByIdAndUpdate(
+    id,
+    { $set: { title, imageUrl, gps, comment } },
+    { new: true }
+  )
     .then((memory) => {
       res.render("detail-memory.ejs", {
         viewTitle: "Details",
@@ -78,7 +72,8 @@ exports.postEditMemory = (req, res, next) => {
 
 exports.getDeleteMemory = (req, res, next) => {
   const memoryID = req.params.id;
-  Memory.deleteMemory(memoryID)
+  // Memory.deleteMemory(memoryID)
+  Memory.findOneAndDelete(memoryID)
     .then((result) => res.redirect("/"))
     .catch((err) => console.error(err));
 };
