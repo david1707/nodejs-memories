@@ -4,6 +4,8 @@
     <%- include('includes/header.ejs') %>
 
     <main>
+      <%- include('includes/messages.ejs') %>
+      
       <form action="/edit-memory" method="POST">
         <h1>Edit memory</h1>
         <input type="hidden" value="<%= memory._id %>" name="id">
