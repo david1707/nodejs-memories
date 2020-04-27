@@ -1,5 +1,5 @@
   <%- include('includes/head.ejs') %>
-  
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
   </head>
   <body>
     <%- include('includes/header.ejs') %>
@@ -7,8 +7,12 @@
     <main>
 
       <%- include('includes/messages.ejs') %>
+
+      <% if(memories.length > 0) { %>
+        <div id="map"></div>
+      <% } %>
       
-      <h1>Home</h1>
+      <h1>Memories</h1>
         <div class="memories">
           <% for (let memory of memories) { %>
             <div class="memory">
@@ -27,3 +31,6 @@
     </main>
 
     <%- include('includes/footer.ejs') %>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+
+    <script src="js/map.js"></script>

@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
+const apiController = require('../controllers/api')
 const mainController = require('../controllers/main')
 
 router.get("/", mainController.getHome);
@@ -17,6 +18,10 @@ router.get("/edit-memory/:id", mainController.getEditMemory);
 router.post("/edit-memory/", mainController.postEditMemory);
 
 router.get("/delete-memory/:id", mainController.getDeleteMemory);
+
+// API-like route
+
+router.get('/api/get-memories', apiController.getMemories)
 
 router.use(mainController.get404);
 
