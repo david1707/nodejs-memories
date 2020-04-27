@@ -8,18 +8,39 @@ exports.getHome = (req, res, next) => {
 };
 
 exports.getCreateMemory = (req, res, next) => {
-  res.render("create-memory.ejs", { viewTitle: "Create a new memory" });
+  res.render("create-memory.ejs", {
+    viewTitle: "Create a new memory",
+    memory: {},
+  });
 };
 
 exports.postCreateMemory = (req, res, next) => {
   const { title, imageUrl, gps, comment } = req.body;
-  const memory = new Memory({ title, imageUrl, gps, comment });
-  memory
-    .save()
-    .then((result) => {
-      res.redirect("/");
-    })
-    .catch((err) => console.error(err));
+
+  if (title.length < 4) {
+    req.flash("messages", {
+      text: "The title is too short. It should have at least 4 charcters.",
+      type: "danger",
+    });
+    res.render("create-memory", {
+      memory: req.body,
+      viewTitle: "Create a new memory",
+      messages: req.flash("messages"),
+    });
+  } else {
+    const memory = new Memory({ title, imageUrl, gps, comment });
+
+    memory
+      .save()
+      .then((result) => {
+        req.flash("messages", {
+          text: "Memory created!",
+          type: "success",
+        });
+        res.redirect("/");
+      })
+      .catch((err) => console.error(err));
+  }
 };
 
 exports.getMemory = (req, res, next) => {
@@ -50,31 +71,48 @@ exports.getEditMemory = (req, res, next) => {
 exports.postEditMemory = (req, res, next) => {
   const { id, title, imageUrl, gps, comment } = req.body;
 
-  // Memory.updateMemory(memoryID, {
-  //   title,
-  //   imageUrl,
-  //   gps,
-  //   comment,
-  // })
-  Memory.findByIdAndUpdate(
-    id,
-    { $set: { title, imageUrl, gps, comment } },
-    { new: true }
-  )
-    .then((memory) => {
-      res.render("detail-memory.ejs", {
-        viewTitle: "Details",
-        memory: memory,
-      });
-    })
-    .catch((err) => console.error(err));
+  if (title.length < 4) {
+    req.flash("messages", {
+      text: "The title is too short. It should have at least 4 charcters.",
+      type: "danger",
+    });
+    res.render("create-memory", {
+      memory: req.body,
+      viewTitle: "Create a new memory",
+      messages: req.flash("messages"),
+    });
+  } else {
+    Memory.findByIdAndUpdate(
+      id,
+      { $set: { title, imageUrl, gps, comment } },
+      { new: true }
+    )
+      .then((memory) => {
+        req.flash("messages", {
+          text: `Memory updated successfully!`,
+          type: "success",
+        });
+        res.render("detail-memory.ejs", {
+          viewTitle: "Details",
+          memory: memory,
+          messages: req.flash('messages')
+        });
+      })
+      .catch((err) => console.error(err));
+  }
 };
 
 exports.getDeleteMemory = (req, res, next) => {
   const memoryID = req.params.id;
   // Memory.deleteMemory(memoryID)
   Memory.findOneAndDelete(memoryID)
-    .then((result) => res.redirect("/"))
+    .then((result) => {
+      req.flash("messages", {
+        text: `Memory deleted!`,
+        type: "success",
+      });
+      res.redirect("/");
+    })
     .catch((err) => console.error(err));
 };
 

@@ -72,7 +72,7 @@ main {
   height: 300px;
 }
 
-.buttons { 
+.buttons {
   display: flex;
   flex-direction: column;
 }
@@ -124,4 +124,22 @@ footer {
   background: rgb(197, 197, 245);
   color: white;
   text-align: center;
+}
+
+/* Messages */
+.message {
+  width: 50%;
+  margin: 0.5rem auto;
+  padding: 0.5em;
+  text-align: center;
+}
+
+.message-danger {
+  background: red;
+  color: white;
+}
+
+.message-success {
+  background: green;
+  color: white;
 }
