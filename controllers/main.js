@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator");
+
 const Memory = require("../models/memory");
 
 exports.getHome = (req, res, next) => {
@@ -10,37 +12,38 @@ exports.getHome = (req, res, next) => {
 exports.getCreateMemory = (req, res, next) => {
   res.render("create-memory.ejs", {
     viewTitle: "Create a new memory",
-    memory: {},
+    oldMemory: { title: "", imageUrl: "", gps: "", comment: "" },
+    validationErrors: [],
   });
 };
 
 exports.postCreateMemory = (req, res, next) => {
   const { title, imageUrl, gps, comment } = req.body;
+  const errors = validationResult(req);
 
-  if (title.length < 4) {
+  if (!errors.isEmpty()) {
     req.flash("messages", {
-      text: "The title is too short. It should have at least 4 charcters.",
+      text: errors.array()[0].msg,
       type: "danger",
     });
-    res.render("create-memory", {
-      memory: req.body,
+    return res.status(422).render("create-memory.ejs", {
       viewTitle: "Create a new memory",
-      messages: req.flash("messages"),
+      oldMemory: { title, imageUrl, gps, comment },
+      validationErrors: errors.array()
     });
-  } else {
-    const memory = new Memory({ title, imageUrl, gps, comment });
-
-    memory
-      .save()
-      .then((result) => {
-        req.flash("messages", {
-          text: "Memory created!",
-          type: "success",
-        });
-        res.redirect("/");
-      })
-      .catch((err) => console.error(err));
   }
+  const memory = new Memory({ title, imageUrl, gps, comment });
+
+  memory
+    .save()
+    .then((result) => {
+      req.flash("messages", {
+        text: "Memory created!",
+        type: "success",
+      });
+      res.redirect("/");
+    })
+    .catch((err) => console.error(err));
 };
 
 exports.getMemory = (req, res, next) => {
@@ -95,7 +98,7 @@ exports.postEditMemory = (req, res, next) => {
         res.render("detail-memory.ejs", {
           viewTitle: "Details",
           memory: memory,
-          messages: req.flash('messages')
+          messages: req.flash("messages"),
         });
       })
       .catch((err) => console.error(err));
