@@ -118,6 +118,10 @@ button {
   border: 1px solid rgb(160, 160, 240);
 }
 
+input.invalid-field,
+textarea.invalid-field {
+  border: 1px solid red;
+}
 /* Footer */
 
 footer {
